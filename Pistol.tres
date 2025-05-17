@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=5 format=3 uid="uid://dlwh38jc3odmn"]
+
+[ext_resource type="ArrayMesh" uid="uid://cu6npfqf70c0d" path="res://weapons_pack_guns/guns/obj_mtl/revolver-python.obj" id="1_25jnp"]
+[ext_resource type="Script" uid="uid://dcj4mns8e3wqr" path="res://Scripts/Resources/WeaponResource.cs" id="1_pp57v"]
+[ext_resource type="AudioStream" uid="uid://dicx4s5y0ywgj" path="res://Sounds/177863__dredile__clean-revolver-reload.wav" id="2_vinth"]
+[ext_resource type="AudioStream" uid="uid://oq5kxkq6n4c0" path="res://Sounds/541818__nox_sound__weapon_revolver_shots_stereo1.ogg" id="3_1eqdv"]
+
+[resource]
+script = ExtResource("1_pp57v")
+FireRate = 0.5
+ReloadTime = 2.0
+BulletsPerShot = 1
+MaxAmmo = 6
+DamagePerBullet = 25.0
+WeaponMesh = ExtResource("1_25jnp")
+weaponMeshPosition = Vector3(0.576179, -0.33507, -0.686839)
+gunRaycastPosition = Vector3(0.576179, -0.33507, -0.686839)
+shootAudio = ExtResource("3_1eqdv")
+reloadAudio = ExtResource("2_vinth")
+metadata/_custom_type_script = "uid://dcj4mns8e3wqr"
