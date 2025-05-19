@@ -71,7 +71,6 @@ var coyoteJumpOn : bool = false
 @export var runAction : String = ""
 @export var crouchAction : String = ""
 @export var jumpAction : String = ""
-
 #references variables
 @onready var camHolder : Node3D = $ProceduralRecoil/CameraHolder
 @onready var model : MeshInstance3D = $Model

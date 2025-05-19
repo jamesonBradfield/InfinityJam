@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=5 format=3 uid="uid://bkyna1nm5bjqt"]
+
+[ext_resource type="PackedScene" uid="uid://bkxskhhlo8jf1" path="res://Scenes/Rifle.tscn" id="1_xcwm2"]
+[ext_resource type="AudioStream" uid="uid://dbyfygq8gt26s" path="res://Assets/Sounds/679546__sonofxaudio__sfx_scifi_rifle_reload.wav" id="2_n6gws"]
+[ext_resource type="Script" uid="uid://dcj4mns8e3wqr" path="res://Scripts/Resources/WeaponResource.cs" id="3_y2t85"]
+[ext_resource type="AudioStream" uid="uid://dweal70enig5y" path="res://Assets/Shapeforms Audio Free Sound Effects/Shapeforms Audio Free Sound Effects/Sci Fi Weapons Cyberpunk Arsenal Preview/AUDIO/LASRGun_Plasma Rifle Fire_03.wav" id="4_xcwm2"]
+
+[resource]
+script = ExtResource("3_y2t85")
+FireRate = 0.125
+ReloadTime = 2.0
+BulletsPerShot = 1
+MaxAmmo = 15
+DamagePerBullet = 5.0
+Spread = 0.0
+WeaponScene = ExtResource("1_xcwm2")
+WeaponMeshPosition = Vector3(0.63, -0.391, -0.707)
+GunRaycastPosition = Vector3(0.63, -0.226, -1.715)
+shootAudio = ExtResource("4_xcwm2")
+reloadAudio = ExtResource("2_n6gws")
+metadata/_custom_type_script = "uid://dcj4mns8e3wqr"

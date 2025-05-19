@@ -1,13 +1,13 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://c26td3nnx8w8a"]
 
 [ext_resource type="Shader" uid="uid://bug5o1tqsmdlw" path="res://Shaders/PixelDither.gdshader" id="1_1cvv5"]
-[ext_resource type="Texture2D" uid="uid://ckxesyaoguldk" path="res://Shaders/mulfok32-1x.png" id="2_1cvv5"]
+[ext_resource type="Texture2D" uid="uid://dns45ncw5d8lg" path="res://Shaders/sheltzy32-1x.png" id="2_1cvv5"]
 
 [resource]
 shader = ExtResource("1_1cvv5")
-shader_parameter/shader_enabled = true
+shader_parameter/shader_enabled = false
 shader_parameter/palette = ExtResource("2_1cvv5")
 shader_parameter/dithering = true
-shader_parameter/dithering_size = 2
+shader_parameter/dithering_size = 1
 shader_parameter/resolution_scale = 2
 shader_parameter/quantization_level = 16

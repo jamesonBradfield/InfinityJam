@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Audio="*res://addons/quick_audio/./Audio.gd"
+GodotLogger="*res://Scripts/GodotLogger.cs"
 
 [dotnet]
 
@@ -25,7 +26,7 @@ project/assembly_name="InfinityJam"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/3dEnemyToolkit/plugin.cfg", "res://addons/customizable-crosshair-lite/plugin.cfg", "res://addons/health_hitbox_hurtbox/plugin.cfg", "res://addons/procedural-recoil/plugin.cfg", "res://addons/quick_audio/plugin.cfg")
+enabled=PackedStringArray("res://addons/3dEnemyToolkit_cs/plugin.cfg", "res://addons/customizable-crosshair-lite/plugin.cfg", "res://addons/procedural-recoil/plugin.cfg", "res://addons/progress_bar_3d/plugin.cfg", "res://addons/quick_audio/plugin.cfg", "res://addons/radial_progress/plugin.cfg", "res://addons/simple_multimesh/plugin.cfg")
 
 [input]
 
@@ -67,6 +68,16 @@ jump={
 shoot={
 "deadzone": 0.2,
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
+]
+}
+switchPrev={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":5,"canceled":false,"pressed":false,"double_click":false,"script":null)
+]
+}
+switchNext={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":4,"canceled":false,"pressed":false,"double_click":false,"script":null)
 ]
 }
 

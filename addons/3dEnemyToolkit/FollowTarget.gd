@@ -1,5 +1,4 @@
 extends NavigationAgent3D
-class_name FollowTarget3D
 
 signal ReachedTarget(target : Node3D)
 

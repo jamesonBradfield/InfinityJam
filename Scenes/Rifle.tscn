@@ -1,0 +1,138 @@
+[gd_scene load_steps=14 format=3 uid="uid://bkxskhhlo8jf1"]
+
+[ext_resource type="PackedScene" uid="uid://cych63u1gp161" path="res://Assets/Gun_Rifle.gltf" id="1_i8ad3"]
+[ext_resource type="Texture2D" uid="uid://d21tmfw7q7bs1" path="res://Assets/Animated Muzzle Flash Pack 1/MuzzleFlashSingleFront1/MuzzleFlashSingleFront1_0000.png" id="2_x8jsk"]
+[ext_resource type="Texture2D" uid="uid://mtr4174wc7u" path="res://Assets/Animated Muzzle Flash Pack 1/MuzzleFlashSingleFront1/MuzzleFlashSingleFront1_0001.png" id="3_rghme"]
+[ext_resource type="Texture2D" uid="uid://dojglxg2l2vcp" path="res://Assets/Animated Muzzle Flash Pack 1/MuzzleFlashSingleFront1/MuzzleFlashSingleFront1_0002.png" id="4_wj5hv"]
+[ext_resource type="Texture2D" uid="uid://dbv1yufgrn2vp" path="res://Assets/Animated Muzzle Flash Pack 1/MuzzleFlashSingleFront2/MuzzleFlashSingleFront2_0000.png" id="5_54cov"]
+[ext_resource type="Texture2D" uid="uid://c1ockbwrj2jx1" path="res://Assets/Animated Muzzle Flash Pack 1/MuzzleFlashSingleFront2/MuzzleFlashSingleFront2_0001.png" id="6_kxr1x"]
+[ext_resource type="Texture2D" uid="uid://c61mwbt54k0lg" path="res://Assets/Animated Muzzle Flash Pack 1/MuzzleFlashSingleFront2/MuzzleFlashSingleFront2_0002.png" id="7_duf8t"]
+[ext_resource type="Texture2D" uid="uid://bpnm1410dcejs" path="res://Assets/Animated Muzzle Flash Pack 1/MuzzleFlashSingleFront3/MuzzleFlashSingleFront3_0000.png" id="8_st4te"]
+[ext_resource type="Texture2D" uid="uid://cdrbptodo6lrg" path="res://Assets/Animated Muzzle Flash Pack 1/MuzzleFlashSingleFront3/MuzzleFlashSingleFront3_0001.png" id="9_5vun4"]
+[ext_resource type="Texture2D" uid="uid://dwohpn5xvengt" path="res://Assets/Animated Muzzle Flash Pack 1/MuzzleFlashSingleFront3/MuzzleFlashSingleFront3_0002.png" id="10_7jxxd"]
+[ext_resource type="Script" uid="uid://dwtab4h6psj24" path="res://addons/simple_multimesh/SimpleMultiMesh3D/SimpleMultiMesh3D.gd" id="11_rghme"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cnydq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_x8jsk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_rghme")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_wj5hv")
+}],
+"loop": true,
+"name": &"MuzzleFlashSingleFront1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_54cov")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_kxr1x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_duf8t")
+}],
+"loop": true,
+"name": &"MuzzleFlashSingleFront2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_st4te")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_5vun4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_7jxxd")
+}],
+"loop": true,
+"name": &"MuzzleFlashSingleFront3",
+"speed": 60.0
+}]
+
+[sub_resource type="MultiMesh" id="MultiMesh_wj5hv"]
+transform_format = 1
+
+[node name="Rifle" type="Node3D"]
+
+[node name="Gun" parent="." instance=ExtResource("1_i8ad3")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Gun"]
+transform = Transform3D(-1.79217e-09, 0, 0.041, 0, 0.041, 0, -0.041, 0, -1.79217e-09, -0.760663, 0.170563, -7.86713e-08)
+visible = false
+sprite_frames = SubResource("SpriteFrames_cnydq")
+animation = &"MuzzleFlashSingleFront3"
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Gun"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.780905, 0.158884, 3.41344e-08)
+visible = false
+light_energy = 13.571
+light_volumetric_fog_energy = 1.135
+light_size = 0.006
+omni_range = 3.216
+omni_attenuation = 1.309
+
+[node name="OverheatParent" type="Node3D" parent="Gun"]
+visible = false
+
+[node name="MeshInstance3D" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.281756, 0.0838198, -0.025933)
+
+[node name="MeshInstance3D2" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.324492, 0.0838198, -0.025933)
+
+[node name="MeshInstance3D3" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.367504, 0.0838198, -0.025933)
+
+[node name="MeshInstance3D4" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.413018, 0.0838198, -0.025933)
+
+[node name="MeshInstance3D5" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.452525, 0.0838198, -0.025933)
+
+[node name="MeshInstance3D6" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.494839, 0.0838198, -0.025933)
+
+[node name="MeshInstance3D7" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.541689, 0.0838198, -0.025933)
+
+[node name="MeshInstance3D8" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.590791, 0.0838198, -0.025933)
+
+[node name="MeshInstance3D9" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.281756, 0.0838198, 0.0205532)
+
+[node name="MeshInstance3D10" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.324492, 0.0838198, 0.0205532)
+
+[node name="MeshInstance3D11" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.367504, 0.0838198, 0.0205532)
+
+[node name="MeshInstance3D12" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.413018, 0.0838198, 0.0205532)
+
+[node name="MeshInstance3D13" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.452525, 0.0838198, 0.0205532)
+
+[node name="MeshInstance3D14" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.494839, 0.0838198, 0.0205532)
+
+[node name="MeshInstance3D15" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.541689, 0.0838198, 0.0205532)
+
+[node name="MeshInstance3D16" type="Node3D" parent="Gun/OverheatParent" groups=["OverheatMeshes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.590791, 0.0838198, 0.0205532)
+
+[node name="SimpleMultiMesh3D" type="MultiMeshInstance3D" parent="Gun/OverheatParent"]
+multimesh = SubResource("MultiMesh_wj5hv")
+script = ExtResource("11_rghme")
+group_name = &"OverheatMeshes"
+metadata/_custom_type_script = "uid://dwtab4h6psj24"

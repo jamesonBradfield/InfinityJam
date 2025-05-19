@@ -1,0 +1,26 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://bg2uammch8s8j"]
+
+[ext_resource type="Shader" uid="uid://ngi6awcbsoig" path="res://Shaders/Fire.gdshader" id="1_mqs1w"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_mqs1w"]
+frequency = 0.003
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_w0ctd"]
+noise = SubResource("FastNoiseLite_mqs1w")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_mqs1w")
+shader_parameter/time_speed = 1.0
+shader_parameter/spin = 0.641
+shader_parameter/flame_brightness = 1.09
+shader_parameter/color_intensity = 0.0
+shader_parameter/horizontal_frequency = 1.0
+shader_parameter/vertical_frequency = 1.768
+shader_parameter/size = -0.3
+shader_parameter/core_size = 0.972
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_w0ctd")
+shader_parameter/color1 = Color(0.286, 0.22, 0.733, 1)
+shader_parameter/color2 = Color(0.98, 0.38, 0.34, 1)
+shader_parameter/color3 = Color(0.98, 0.95, 0.53, 1)
+shader_parameter/color4 = Color(1, 1, 1, 1)

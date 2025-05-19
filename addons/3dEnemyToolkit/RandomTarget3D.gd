@@ -1,5 +1,4 @@
 extends Node3D
-class_name RandomTarget3D
 
 @export var MinRadius : float  = 1.0
 @export var MaxRadius : float  = 10.0

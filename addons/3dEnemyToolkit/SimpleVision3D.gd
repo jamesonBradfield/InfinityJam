@@ -1,5 +1,4 @@
 extends Node3D
-class_name SimpleVision3D
 
 signal GetSight(body : Node3D)
 signal LostSight
