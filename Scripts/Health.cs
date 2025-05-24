@@ -1,11 +1,15 @@
 using Godot;
+using GodotTools;
 [GlobalClass]
 public partial class Health : Node
 {
-    [Export] Node3D healthBar;
+    [Export] public Node3D healthBar;
     [Export] Control uiHealthBar;
     [Export] float MaxHealth;
     [Export] float CurrentHealth;
+    [Export] float healthBarDisplayTime;
+    float currentTime = 0f;
+    bool timerOn;
     [Signal]
     public delegate void HealthChangedSignalEventHandler(float currentHealth, float maxHealth);
     [Signal]
@@ -24,6 +28,7 @@ public partial class Health : Node
         {
             healthBar.Set("max_value", MaxHealth);
             healthBar.Set("value", CurrentHealth);
+            healthBar.VisibilityChanged += StartVisibilityTimer;
         }
         if (uiHealthBar != null)
         {
@@ -31,16 +36,29 @@ public partial class Health : Node
             uiHealthBar.Set("value", CurrentHealth);
         }
     }
+    public override void _Process(double delta)
+    {
+        if (timerOn)
+            currentTime += (float)delta;
+        if (currentTime >= healthBarDisplayTime && healthBar != null)
+        {
+            healthBar.Hide();
+            timerOn = false;
+        }
 
+    }
     public void TakeDamage(float damage)
     {
+        GodotLogger.Info($"damage {damage}");
+        if (healthBar != null)
+            healthBar.Show();
         CurrentHealth -= damage;
 
         if (healthBar != null)
             healthBar.Set("value", CurrentHealth);
 
         if (uiHealthBar != null)
-            uiHealthBar.Set("value", CurrentHealth);
+            uiHealthBar.Set("progress", CurrentHealth);
         EmitSignal(SignalName.HealthChangedSignal, CurrentHealth, MaxHealth);
         EmitSignal(SignalName.DamageSignal, damage);
         if (CurrentHealth <= 0)
@@ -51,6 +69,8 @@ public partial class Health : Node
 
     public void Heal(float healthToAdd)
     {
+        if (healthBar != null)
+            healthBar.Show();
         CurrentHealth += healthToAdd;
 
         if (healthBar != null)
@@ -64,6 +84,8 @@ public partial class Health : Node
 
     public void IncreaseMaxHealth(float value)
     {
+        if (healthBar != null)
+            healthBar.Show();
         MaxHealth += value;
         if (healthBar != null)
             healthBar.Set("max_value", MaxHealth);
@@ -76,6 +98,8 @@ public partial class Health : Node
 
     public void DecreaseMaxHealth(float value)
     {
+        if (healthBar != null)
+            healthBar.Show();
         MaxHealth -= value;
         if (CurrentHealth > MaxHealth)
         {
@@ -97,6 +121,14 @@ public partial class Health : Node
         if (CurrentHealth <= 0)
         {
             EmitSignal(SignalName.DeathSignal);
+        }
+    }
+    private void StartVisibilityTimer()
+    {
+        if (healthBar.Visible)
+        {
+            timerOn = true;
+            currentTime = 0f;
         }
     }
 }

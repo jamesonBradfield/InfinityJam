@@ -11,7 +11,6 @@ public partial class HurtState : MyState
     public override void Enter()
     {
         base.Enter();
-        GD.Print("Entered hurt state");
 
         if (enemy == null)
         {
@@ -36,7 +35,6 @@ public partial class HurtState : MyState
             {
                 enemy.animationPlayer.Play("Hit");
 
-                // Register for animation finished - might be useful
                 enemy.animationPlayer.AnimationFinished += OnAnimationFinished;
             }
             else
@@ -60,8 +58,6 @@ public partial class HurtState : MyState
 
         if (!transitioningOut && IsInstanceValid(this))
         {
-            GD.Print("Hurt state duration complete, transitioning out");
-
             // Transition back to patrol or pursue based on if we have a target
             if (enemy.Target != null)
             {
@@ -87,13 +83,13 @@ public partial class HurtState : MyState
 
     public override void Exit()
     {
-        GD.Print("Exiting hurt state");
         transitioningOut = true;
 
         if (enemy != null && enemy.animationPlayer != null)
         {
             enemy.animationPlayer.Stop();
-            enemy.animationPlayer.AnimationFinished -= OnAnimationFinished;
+            if (enemy.animationPlayer.HasConnections("animation_finished"))
+                enemy.animationPlayer.AnimationFinished -= OnAnimationFinished;
         }
 
         base.Exit();

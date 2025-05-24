@@ -4,6 +4,7 @@ public partial class WaveManager : Node
 {
     [Export] public Curve pointsPerRound;
     [Export] public int round;
+    [Export] Label waveCounter;
     public float CurrentBuyAmount;
     [Signal]
     public delegate void StartEventHandler();
@@ -19,7 +20,9 @@ public partial class WaveManager : Node
     }
     public void InitializeRound()
     {
-        CurrentBuyAmount = pointsPerRound.Sample(round);
+        round++;
+        waveCounter.Text = "Wave : " + round;
+        CurrentBuyAmount = (int)pointsPerRound.Sample(round);
         GodotLogger.Info($"CurrentBuyAmount {CurrentBuyAmount}");
         EmitSignal(SignalName.Initialize, CurrentBuyAmount);
     }
@@ -27,8 +30,9 @@ public partial class WaveManager : Node
     {
         EmitSignal(SignalName.Start);
     }
-    public void EndRound()
-    {
-        EmitSignal(SignalName.End);
-    }
+    // our enemySpawner is handling calling our signal
+    // public void EndRound()
+    // {
+    //     EmitSignal(SignalName.End);
+    // }
 }

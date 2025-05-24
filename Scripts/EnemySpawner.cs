@@ -9,6 +9,7 @@ public partial class EnemySpawner : Node
     [Export] public int[] points;
     [Export] public Node3D[] spawnPoints;
     [Export] public WaveManager waveManager;
+    public List<Enemy> enemiesInScene = new();
     public override void _Ready()
     {
         waveManager.Initialize += BuyForRound;
@@ -66,14 +67,16 @@ public partial class EnemySpawner : Node
                 if (globalEnemyIndex >= totalEnemies)
                     break;
 
-                CharacterBody3D enemyInScene = enemiesToSpawnOnRoundStart[globalEnemyIndex].Instantiate() as CharacterBody3D;
+                Enemy enemyInScene = enemiesToSpawnOnRoundStart[globalEnemyIndex].Instantiate() as Enemy;
                 enemyInScene.Position = new Vector3(
                     spawnPoint.Position.X + (xIndex * padding),
                     spawnPoint.Position.Y,
                     spawnPoint.Position.Z + (zIndex * padding)
                 );
-                AddChild(enemyInScene);
+                enemiesInScene.Add(enemyInScene);
+                enemyInScene.health.DeathSignal += () => { enemiesInScene.Remove(enemyInScene); if (enemiesInScene.Count == 0) { waveManager.EmitSignal(WaveManager.SignalName.End); } };
                 GodotLogger.Info($"Spawning enemy at position {enemyInScene.Position} (spawn point {spawnIndex})");
+                AddChild(enemyInScene);
             }
         }
     }

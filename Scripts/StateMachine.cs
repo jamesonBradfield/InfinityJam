@@ -1,11 +1,14 @@
 using Godot;
 using System.Collections.Generic;
+using GodotTools;
+
 [GlobalClass]
 public partial class StateMachine : Node
 {
     [Export] public NodePath initialState;
     private Dictionary<string, MyState> _states;
     private MyState _currentState;
+
     [Signal]
     public delegate void changedStateEventHandler();
 
@@ -14,42 +17,74 @@ public partial class StateMachine : Node
     public override void _Ready()
     {
         _states = new Dictionary<string, MyState>();
+
         foreach (Node node in GetChildren())
         {
             if (node is MyState s)
             {
                 _states[node.Name] = s;
-                GD.Print(node.Name);
+                GodotLogger.Info("Registered state: " + node.Name);
                 s.fsm = this;
                 s.Ready();
                 s.Exit();
             }
         }
-        _currentState = GetNode<MyState>(initialState);
-        _currentState.Enter();
+
+        if (initialState != null)
+        {
+            _currentState = GetNode<MyState>(initialState);
+            _currentState.Enter();
+            GodotLogger.Info("Started with initial state: " + _currentState.Name);
+        }
     }
 
     public override void _Process(double delta)
     {
-        _currentState.Update((float)delta);
+        if (_currentState != null)
+        {
+            _currentState.Update((float)delta);
+        }
     }
+
     public override void _PhysicsProcess(double delta)
     {
-        _currentState.PhysicsUpdate((float)delta);
+        if (_currentState != null)
+        {
+            _currentState.PhysicsUpdate((float)delta);
+        }
     }
+
     public override void _UnhandledInput(InputEvent @event)
     {
-        _currentState.HandleInput(@event);
+        if (_currentState != null)
+        {
+            _currentState.HandleInput(@event);
+        }
     }
 
     public void TransitionTo(string key)
     {
-        GD.Print("Transitioning to : " + _currentState);
-        if (!_states.ContainsKey(key) || _currentState == _states[key])
+        if (!_states.ContainsKey(key))
+        {
+            GodotLogger.Error("State not found: " + key);
             return;
+        }
+
+        if (_currentState == _states[key])
+        {
+            GodotLogger.Info("Already in state: " + key);
+            return;
+        }
+
+        MyState oldState = _currentState;
+        MyState newState = _states[key];
+
+        GodotLogger.Info("Transitioning from " + oldState.Name + " to " + newState.Name);
+
         _currentState.Exit();
-        _currentState = _states[key];
+        _currentState = newState;
         _currentState.Enter();
+
         EmitSignal(SignalName.changedState);
     }
 }

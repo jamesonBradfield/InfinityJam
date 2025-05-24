@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using GodotTools;
 public partial class Weapon : Node3D
 {
     [Export] int currentWeaponResourceIndex;
@@ -11,15 +12,15 @@ public partial class Weapon : Node3D
     [Export] AudioStream hitMarkerSound;
     AnimatedSprite3D muzzleAnimation;
     OmniLight3D muzzleLight;
-    Node3D overheatNode;
-    // SubViewport subViewport;
+    SubViewport subViewport;
 
     AudioStream shootAudio, reloadAudio;
     GodotObject Audio;
     Node3D WeaponInScene;
     Vector3 aimPoint;
-    int BulletsPerShot, MaxAmmo, CurrentAmmo;
-    float DamagePerBullet, spread, timeBetweenLastShot, timeBetweenReload, FireRate, ReloadTime;
+    public int BulletsPerShot, MaxAmmo, CurrentAmmo;
+    public float DamagePerBullet, spread, timeBetweenLastShot, timeBetweenReload, FireRate, ReloadTime;
+    bool shouldStartShooting = false;
     bool shouldFire = false;
     List<CollisionObject3D> objectsHit = new();
     [Export] private bool debug;
@@ -31,7 +32,7 @@ public partial class Weapon : Node3D
         InitializeWeapon();
         Audio = GetNode("/root/Audio");
         GD.Randomize();
-        // subViewport = GetNode<SubViewport>("/root/TemplateMap/SubViewportContainer/SubViewport");
+        subViewport = GetNode<SubViewport>("/root/TemplateMap/SubViewportContainer/SubViewport");
     }
 
 
@@ -39,7 +40,7 @@ public partial class Weapon : Node3D
     {
         base._PhysicsProcess(delta);
         PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-        Vector2 mousePos = GetViewport().GetMousePosition();
+        Vector2 mousePos = subViewport.GetMousePosition();
 
         Vector3 origin = camera.ProjectRayOrigin(mousePos);
         Vector3 direction = camera.ProjectRayNormal(mousePos);
@@ -89,35 +90,44 @@ public partial class Weapon : Node3D
                 DebugDraw3D.DrawSphere(aimPoint, 0.05f, Colors.Yellow);
         }
     }
-
-    public override void _Process(double delta)
+    public override void _UnhandledInput(InputEvent @event)
     {
-        // WeaponInScene.LookAt(aimPoint, Vector3.Up);
-        // NOTE: we should probably cache our ammo on switch.
-        if (Input.IsActionJustPressed("switchNext"))
+        if (@event.IsActionPressed("switchNext"))
         {
-            //GD.Print($"switch Next called");
             if (currentWeaponResourceIndex < weaponResources.Length - 1)
                 currentWeaponResourceIndex++;
             else
                 currentWeaponResourceIndex = 0;
             InitializeWeapon();
         }
-
-        if (Input.IsActionJustPressed("switchPrev"))
+        else if (@event.IsActionPressed("switchPrev"))
         {
-            //GD.Print($"switch Prev called");
             if (currentWeaponResourceIndex > 0)
                 currentWeaponResourceIndex--;
             else
                 currentWeaponResourceIndex = weaponResources.Length - 1;
             InitializeWeapon();
         }
-        if (Input.IsActionPressed("shoot"))
+
+        if (@event.IsActionPressed("shoot"))
+        {
+            shouldStartShooting = true;
+        }
+        else if (@event.IsActionReleased("shoot"))
+        {
+            shouldStartShooting = false;
+        }
+    }
+
+    public override void _Process(double delta)
+    {
+        timeBetweenReload += (float)delta;
+        timeBetweenLastShot += (float)delta;
+
+        if (shouldStartShooting)
         {
             if (timeBetweenLastShot >= FireRate && CurrentAmmo > 0)
             {
-                // reload timer check, we should put a misfire audio cue if you try to shoot while reloading
                 if (timeBetweenReload >= ReloadTime)
                 {
                     timeBetweenLastShot = 0f;
@@ -127,7 +137,6 @@ public partial class Weapon : Node3D
                     {
                         if (hitObject.HasNode("Health"))
                         {
-                            //GD.Print($"hitObject {hitObject}");
                             var health = hitObject.GetNode<Health>("Health");
                             health.TakeDamage(DamagePerBullet);
                             Audio.Call("play_sound", hitMarkerSound);
@@ -139,31 +148,20 @@ public partial class Weapon : Node3D
                     muzzleAnimation.Show();
                     muzzleLight.Show();
                     muzzleAnimation.Play();
-                    // if (debug)
-                    //GD.Print($"Shot {BulletsPerShot} {CurrentAmmo} left");
                 }
                 else
                 {
-                    if (debug)
-                        //GD.Print("trying to shoot while reloading");
-                        timeBetweenLastShot = 0f;
+                    timeBetweenLastShot = 0f;
                 }
             }
-            // this should be available at any time (not constrained by the timer of our last bullet.
+
             if (CurrentAmmo <= 0)
             {
-                //reload
-                if (debug)
-                    //GD.Print("Reloading");
-                    timeBetweenReload = 0f;
+                timeBetweenReload = 0f;
                 Audio.Call("play_sound", reloadAudio);
-                overheatNode.Show();
-                // this should be reset at the end of our reload timer.
                 CurrentAmmo = MaxAmmo;
             }
         }
-        timeBetweenReload += (float)delta;
-        timeBetweenLastShot += (float)delta;
     }
     private Vector3 ApplySpread(Vector3 baseDirection)
     {
@@ -190,15 +188,15 @@ public partial class Weapon : Node3D
 
     private void InitializeWeapon()
     {
-        //GD.Print($"current index for weapon {currentWeaponResourceIndex}");
-        //GD.Print($"attempting to switch to {weaponResources[currentWeaponResourceIndex]}");
+        //GodotLogger.Info($"current index for weapon {currentWeaponResourceIndex}");
+        //GodotLogger.Info($"attempting to switch to {weaponResources[currentWeaponResourceIndex]}");
         if (WeaponInScene == null)
         {
             WeaponInScene = (Node3D)weaponResources[currentWeaponResourceIndex].WeaponScene.Instantiate();
             gunRecoil.AddChild(WeaponInScene);
+            WeaponInScene.Position = weaponResources[currentWeaponResourceIndex].WeaponMeshPosition;
             muzzleAnimation = WeaponInScene.GetNode<AnimatedSprite3D>("Gun/AnimatedSprite3D");
             muzzleLight = WeaponInScene.GetNode<OmniLight3D>("Gun/OmniLight3D");
-            overheatNode = WeaponInScene.GetNode<Node3D>("Gun/OverheatParent");
             muzzleAnimation.AnimationLooped += muzzleAnimation.Hide;
             muzzleAnimation.AnimationLooped += muzzleAnimation.Stop;
             muzzleAnimation.AnimationLooped += muzzleLight.Hide;
