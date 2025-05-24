@@ -12,22 +12,21 @@ public partial class Missile : Node3D
     [Export] public Path3D trajectoryPath;
     [Export] public PathFollow3D pathFollower;
     [Export] public MeshInstance3D meshInstance3D;
+
     public Vector3 startPosition = Vector3.Zero;
     public float pathLength;
     public float distanceTraveled;
     public float launchTime = 0f;
+
     public override void _Ready()
     {
         base._Ready();
 
-        startPosition = GlobalTransform.Origin;
+        // Don't set startPosition here - it will be set when the missile is properly positioned
 
-        startPosition = GlobalTransform.Origin;
-
-        // Set up the scene tree structure
         if (debugTrajectory)
         {
-            GD.Print($"Missile initialized at {startPosition}");
+            GD.Print($"Missile initialized");
         }
     }
 
@@ -37,6 +36,14 @@ public partial class Missile : Node3D
         {
             GD.PrintErr("TrajectoryPath is null! Make sure SetupPathComponents was called.");
             return;
+        }
+
+        // Set the start position NOW, when we're actually creating the path
+        startPosition = GlobalTransform.Origin;
+
+        if (debugTrajectory)
+        {
+            GD.Print($"Creating trajectory from {startPosition} to {TargetPosition}");
         }
 
         // Create smooth arc curve
@@ -81,6 +88,7 @@ public partial class Missile : Node3D
             GD.Print($"Start: {start}, End: {end}, Midpoint: {midpoint}");
         }
     }
+
     public void LaunchToward(Vector3 target, float customArcHeight = -1f)
     {
         TargetPosition = target;
