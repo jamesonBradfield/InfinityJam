@@ -42,7 +42,7 @@ var mouseFree : bool = false
 #references variables
 @onready var camera : Camera3D = $Camera
 @onready var playChar : PlayerCharacter = $"../.."
-@onready var hud : CanvasLayer = $"../../HUD"
+# @onready var hud : CanvasLayer = $"../../HUD"
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED) #set mouse mode as captured

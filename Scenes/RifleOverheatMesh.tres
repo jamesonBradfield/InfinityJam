@@ -1,8 +1,0 @@
-[gd_resource type="SphereMesh" load_steps=2 format=3 uid="uid://s14wa36jcl6i"]
-
-[ext_resource type="Material" uid="uid://bg2uammch8s8j" path="res://Shaders/Fire.tres" id="1_42m3i"]
-
-[resource]
-material = ExtResource("1_42m3i")
-radius = 0.025
-height = 0.059

@@ -55,10 +55,8 @@ public partial class Weapon : Node3D
             if (shouldFire)
             {
                 objectsHit.Clear();
-                // use Muzzle flash as muzzle Position.
                 Vector3 gunOrigin = muzzleAnimation.GlobalPosition;
                 Vector3 baseDirection = (aimPoint - gunOrigin).Normalized();
-                // Fire Multiple bullets with spread.
                 for (int i = 0; i < BulletsPerShot; i++)
                 {
                     Vector3 spreadDirection = ApplySpread(baseDirection);
@@ -123,7 +121,6 @@ public partial class Weapon : Node3D
     {
         timeBetweenReload += (float)delta;
         timeBetweenLastShot += (float)delta;
-
         if (shouldStartShooting)
         {
             if (timeBetweenLastShot >= FireRate && CurrentAmmo > 0)
@@ -188,8 +185,6 @@ public partial class Weapon : Node3D
 
     private void InitializeWeapon()
     {
-        //GodotLogger.Info($"current index for weapon {currentWeaponResourceIndex}");
-        //GodotLogger.Info($"attempting to switch to {weaponResources[currentWeaponResourceIndex]}");
         if (WeaponInScene == null)
         {
             WeaponInScene = (Node3D)weaponResources[currentWeaponResourceIndex].WeaponScene.Instantiate();

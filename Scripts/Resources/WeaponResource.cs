@@ -2,7 +2,6 @@ using Godot;
 [GlobalClass]
 public partial class WeaponResource : Resource
 {
-
     [ExportGroup("Stats")]
     [Export] public float FireRate = 0.5f;
     [Export] public float ReloadTime = 1.5f;
@@ -13,7 +12,7 @@ public partial class WeaponResource : Resource
     [ExportGroup("Visuals and Feedback")]
     [Export] public PackedScene WeaponScene;
     [Export] public Vector3 WeaponMeshPosition;
-    [Export] public Vector3 GunRaycastPosition;
     [Export] public AudioStream shootAudio;
     [Export] public AudioStream reloadAudio;
+
 }

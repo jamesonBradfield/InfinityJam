@@ -1562,13 +1562,14 @@ resource_local_to_scene = true
 material = SubResource("ShaderMaterial_kbuth")
 size = Vector2(1, 0.1)
 
-[node name="Enemy" type="CharacterBody3D" node_paths=PackedStringArray("animationPlayer", "followTarget3D", "randomTarget3D", "simpleVision3D")]
+[node name="Enemy" type="CharacterBody3D" node_paths=PackedStringArray("animationPlayer", "followTarget3D", "randomTarget3D", "simpleVision3D", "health")]
 script = ExtResource("1_6bs3c")
 animationPlayer = NodePath("Enemy_QuadShell/AnimationPlayer")
 followTarget3D = NodePath("FollowTarget3D")
 randomTarget3D = NodePath("RandomTarget3D")
 simpleVision3D = NodePath("SimpleVision3D")
 walkSpeed = 3.0
+health = NodePath("Health")
 
 [node name="RandomTarget3D" type="Node3D" parent="."]
 script = ExtResource("9_uihya")

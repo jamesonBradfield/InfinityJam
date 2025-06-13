@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://oj3blpxqf1bl"]
 
-[ext_resource type="PackedScene" uid="uid://bwggrf7sbmkcv" path="res://addons/PlayerCharacter/PlayerCharacterScene.tscn" id="1_5opx6"]
+[ext_resource type="PackedScene" uid="uid://bwggrf7sbmkcv" path="res://Scenes/PlayerCharacterScene.tscn" id="1_5opx6"]
 [ext_resource type="Theme" uid="uid://b86xl5n8iqe54" path="res://UITheme.tres" id="2_kaic0"]
 [ext_resource type="Script" uid="uid://d26l6150w23g1" path="res://addons/customizable-crosshair-lite/crosshair.gd" id="3_atpwd"]
 [ext_resource type="Script" uid="uid://cx1renqdotm1c" path="res://Scripts/WaveManager.cs" id="4_8maci"]
@@ -259,6 +259,15 @@ ring = true
 nb_points = 8
 metadata/_custom_type_script = "uid://c1hk0a2kmyc0a"
 
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -98.0
+offset_right = 113.0
+grow_vertical = 0
+
 [node name="Area3D" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -16.341, 0)
 
@@ -266,9 +275,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -16.341, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13.8761, 0)
 shape = SubResource("BoxShape3D_w47yd")
 
-[node name="WaveManager" type="Node3D" parent="."]
+[node name="WaveManager" type="Node3D" parent="." node_paths=PackedStringArray("waveCounter")]
 script = ExtResource("4_8maci")
 pointsPerRound = SubResource("Curve_y5876")
+waveCounter = NodePath("../Control/Label")
 
 [node name="EnemySpawner" type="Node3D" parent="WaveManager" node_paths=PackedStringArray("spawnPoints", "waveManager")]
 script = ExtResource("5_g5b6t")
@@ -288,5 +298,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.4068, 1.193, -1.11953)
 
 [node name="Node3D4" type="Node3D" parent="WaveManager/EnemySpawner"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25818, 1.193, -26.6864)
-
-[editable path="PlayerCharacter/PlayerCharacter"]

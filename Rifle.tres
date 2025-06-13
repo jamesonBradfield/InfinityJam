@@ -7,7 +7,7 @@
 
 [resource]
 script = ExtResource("3_y2t85")
-FireRate = 0.125
+FireRate = 0.25
 ReloadTime = 2.0
 BulletsPerShot = 1
 MaxAmmo = 15
@@ -15,7 +15,6 @@ DamagePerBullet = 5.0
 Spread = 0.0
 WeaponScene = ExtResource("1_xcwm2")
 WeaponMeshPosition = Vector3(0.63, -0.391, -0.707)
-GunRaycastPosition = Vector3(0.63, -0.226, -1.715)
 shootAudio = ExtResource("4_xcwm2")
 reloadAudio = ExtResource("2_n6gws")
 metadata/_custom_type_script = "uid://dcj4mns8e3wqr"
